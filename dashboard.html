@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Follow Fast - Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #3b82f6;
+      padding: 15px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* Top Banner Card */
+    .banner-card {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .banner-card h4 {
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+    }
+
+    .top-btn {
+      background: #60a5fa;
+      color: white;
+      text-decoration: none;
+      padding: 8px 24px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* Info Cards */
+    .info-card {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .info-card .icon {
+      font-size: 28px;
+    }
+
+    .info-card .details {
+      text-align: right;
+    }
+
+    .info-card .details p {
+      font-size: 13px;
+      color: #1e3a8a;
+      font-weight: bold;
+    }
+
+    .info-card .details h2 {
+      font-size: 20px;
+      color: #111827;
+    }
+
+    /* Main Order Card */
+    .order-box {
+      background: #ffffff;
+      padding: 18px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-top: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 6px;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #e5e7eb;
+      background: #f3f4f6;
+      border-radius: 8px;
+      font-size: 12px;
+      outline: none;
+      color: #333;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #eab308;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Header Bonus Banner -->
+    <div class="banner-card">
+      <h4>We Have Enabled <span style="color: green;">2% Bonus</span> On Payments</h4>
+      <div class="btn-group">
+        <a href="addbalance.html" class="top-btn">Add Balance</a>
+      </div>
+    </div>
+
+    <!-- Balance & Stats Cards -->
+    <div class="info-card">
+      <div class="icon">👛</div>
+      <div class="details">
+        <p>Balance</p>
+        <h2 id="user-balance">₹0.00</h2>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="icon">💳</div>
+      <div class="details">
+        <p>You Spent</p>
+        <h2 id="user-spent">₹0.00</h2>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="icon">📑</div>
+      <div class="details">
+        <p>Panel Orders</p>
+        <h2>13040793</h2>
+      </div>
+    </div>
+
+    <!-- Order Form -->
+    <div class="order-box">
+      
+      <!-- Category/Service Selection -->
+      <div class="form-group">
+        <label>Service *</label>
+        <select id="categorySelect" onchange="updatePackages()">
+          <option value="ig_indian">📷 Instagram Followers [ 🇮🇳 100% Indian Permanent - Special Offer ]</option>
+          <option value="ig_views">📷 Instagram Views [ Fast Working ] updated</option>
+          <option value="ig_likes">📷 Instagram Likes [ Cheapest ] NEW</option>
+          <option value="yt_subscribers">▶️ YouTube Subscribers [ High Speed - Best Offer ]</option>
+          <option value="yt_views">▶️ YouTube Views & Likes</option>
+          <option value="fb_services">📘 Facebook Followers & Likes</option>
+        </select>
+      </div>
+
+      <!-- Package Selection -->
+      <div class="form-group">
+        <label>Package * ⭐</label>
+        <select id="packageSelect" onchange="calculatePrice()">
+          <!-- Dynamic Options Will Appear Here -->
+        </select>
+      </div>
+
+      <!-- Price Rate -->
+      <div class="form-group">
+        <label>Price</label>
+        <input type="text" id="priceRate" readonly>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" id="serviceDesc" readonly value="Start - Instant - High Speed ⚡">
+      </div>
+
+      <!-- Average Time -->
+      <div class="form-group">
+        <label>Average Time (Last 10 Orders)</label>
+        <input type="text" value="10 minutes" readonly>
+      </div>
+
+      <!-- Target Link Input -->
+      <div class="form-group">
+        <label>Link *</label>
+        <input type="text" id="targetLink" placeholder="Account / Post / Channel Link Must be Public">
+      </div>
+
+      <!-- Quantity Input -->
+      <div class="form-group">
+        <label>Quantity *</label>
+        <input type="number" id="quantityInput" placeholder="Enter Quantity" min="10" oninput="calculatePrice()">
+        <small style="font-size: 10px; color: #666; display: block; margin-top: 3px;">Min: 10 - Max: 1000000</small>
+      </div>
+
+      <!-- Total Charge Output -->
+      <div class="form-group">
+        <label>Total Charge</label>
+        <input type="text" id="totalCharge" value="₹0.00" readonly style="font-weight: bold; color: #2563eb;">
+      </div>
+
+      <button class="submit-btn" onclick="placeOrder()">Submit Order</button>
+
+    </div>
+
+  </div>
+
+  <a href="https://wa.me/919748586056" class="whatsapp-float" target="_blank">💬</a>
+
+  <script>
+    let userData = JSON.parse(localStorage.getItem("smm_user")) || { name: "User", balance: 0.00, spent: 0.00 };
+    let orderHistory = JSON.parse(localStorage.getItem("smm_orders")) || [];
+
+    const serviceData = {
+      ig_indian: [
+        { id: "3968", name: "ID:3968 Instagram Followers | Max 10K | Premium Indian 🇮🇳 | Permanent", rate: 20.00 },
+        { id: "3969", name: "ID:3969 Instagram Followers | Max 50K | Real Indian 🇮🇳 | Non Drop", rate: 20.00 }
+      ],
+      ig_views: [
+        { id: "2901", name: "ID:2901 Instagram Video Views | Instant | Ultrafast ⚡", rate: 0.24 },
+        { id: "2489", name: "ID:2489 Instagram Video Views | All Link | Instant ⚡🔥", rate: 0.24 }
+      ],
+      ig_likes: [
+        { id: "7682", name: "ID:7682 IG Likes | HQ Quality | Non Drop | Instant", rate: 4.15 },
+        { id: "3293", name: "ID:3293 Instagram Likes | Max 5M | 100K+/Day", rate: 4.63 }
+      ],
+      yt_subscribers: [
+        { id: "5002", name: "ID:5002 YouTube Subscribers | Non Drop | Real Active Accounts | Speed 500-1K/Day", rate: 25.00 },
+        { id: "5005", name: "ID:5005 YouTube Subscribers | Instant Start | 100% Refill Guaranteed", rate: 25.00 }
+      ],
+      yt_views: [
+        { id: "5001", name: "ID:5001 YouTube Views | High Retention | Speed 10K/Day", rate: 50.00 },
+        { id: "5003", name: "ID:5003 YouTube Likes | Instant Start | Non Drop", rate: 30.00 }
+      ],
+      fb_services: [
+        { id: "6001", name: "ID:6001 Facebook Profile / Page Followers | Real Indian Accounts", rate: 35.00 },
+        { id: "6002", name: "ID:6002 Facebook Post Likes | Instant Start", rate: 20.00 }
+      ]
+    };
+
+    function updateDashboardUI() {
+      document.getElementById("user-balance").innerText = `₹${(userData.balance || 0).toFixed(2)}`;
+      document.getElementById("user-spent").innerText = `₹${(userData.spent || 0).toFixed(2)}`;
+    }
+
+    function updatePackages() {
+      const category = document.getElementById("categorySelect").value;
+      const packageSelect = document.getElementById("packageSelect");
+      
+      packageSelect.innerHTML = "";
+      
+      if(serviceData[category]) {
+        serviceData[category].forEach(pkg => {
+          const option = document.createElement("option");
+          option.value = pkg.rate;
+          option.setAttribute("data-name", pkg.name);
+          option.textContent = `${pkg.name} -- ₹${pkg.rate.toFixed(2)} per 1000`;
+          packageSelect.appendChild(option);
+        });
+      }
+
+      calculatePrice();
+    }
+
+    function calculatePrice() {
+      const packageSelect = document.getElementById("packageSelect");
+      const rate = parseFloat(packageSelect.value) || 0;
+      const qty = parseInt(document.getElementById("quantityInput").value) || 0;
+
+      document.getElementById("priceRate").value = `₹${rate.toFixed(2)} per 1000`;
+      
+      const total = (rate * qty) / 1000;
+      document.getElementById("totalCharge").value = `₹${total.toFixed(2)}`;
+    }
+
+    function placeOrder() {
+      const packageSelect = document.getElementById("packageSelect");
+      const selectedOption = packageSelect.options[packageSelect.selectedIndex];
+      const linkInput = document.getElementById("targetLink").value;
+      const qtyInput = parseInt(document.getElementById("quantityInput").value) || 0;
+      
+      if (!selectedOption) return alert("দয়া করে সার্ভিস নির্বাচন করুন!");
+      if (!linkInput) return alert("দয়া করে লিঙ্ক দিন!");
+      if (qtyInput <= 0) return alert("দয়া করে সঠিক পরিমাণ (Quantity) লিখুন!");
+
+      const serviceName = selectedOption.getAttribute("data-name");
+      const totalCharge = parseFloat(document.getElementById("totalCharge").value.replace("₹", "")) || 0;
+
+      if (userData.balance < totalCharge) {
+        return alert("আপনার অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই! Add Balance করুন।");
+      }
+
+      userData.balance -= totalCharge;
+      userData.spent = (userData.spent || 0) + totalCharge;
+      localStorage.setItem("smm_user", JSON.stringify(userData));
+
+      const newOrder = {
+        id: Math.floor(100000 + Math.random() * 900000),
+        service: serviceName,
+        charge: totalCharge.toFixed(2),
+        status: "Pending"
+      };
+
+      orderHistory.unshift(newOrder);
+      localStorage.setItem("smm_orders", JSON.stringify(orderHistory));
+
+      updateDashboardUI();
+      alert(`অর্ডার সফল হয়েছে! Order ID: #${newOrder.id}`);
+    }
+
+    window.onload = function() {
+      updateDashboardUI();
+      updatePackages();
+    };
+  </script>
+
+</body>
+</html>
