@@ -51,12 +51,9 @@
 
 <br><br>
 
-<button>Submit Payment</button>
+<button type="button" onclick="showError()">Submit Payment</button>
 
-<p style="margin-top:20px;color:#22c55e;">
-Payment Submitted.<br>
-Waiting for Admin Verification.
-</p>
+<p id="statusMsg" style="margin-top:20px; font-weight: bold;"></p>
 
 <a href="dashboard.html">
 <button>Back to Dashboard</button>
@@ -74,6 +71,21 @@ Waiting for Admin Verification.
   }
   function closeModal() {
     document.getElementById("imgModal").style.display = "none";
+  }
+
+  function showError() {
+    let amount = document.querySelectorAll('input')[0].value;
+    let trxn = document.querySelectorAll('input')[1].value;
+    let msgBox = document.getElementById('statusMsg');
+
+    if (!amount || !trxn) {
+      msgBox.style.color = "orange";
+      msgBox.innerText = "Please enter Amount and Transaction ID!";
+      return;
+    }
+
+    msgBox.style.color = "#ef4444"; // Red Color
+    msgBox.innerText = "Wrong Transaction ID";
   }
 </script>
 
