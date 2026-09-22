@@ -1,93 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Balance - Follow Fast</title>
-<link rel="stylesheet" href="style.css">
-<style>
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
-  }
-  .modal img {
-    width: 85%;
-    max-width: 400px;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Balance - Follow Fast</title>
 </head>
+<body style="margin: 0; padding: 20px; font-family: sans-serif; text-align: center; background-color: #0d1117; color: #ffffff;">
 
-<body>
+  <div style="max-width: 400px; margin: 0 auto;">
+    
+    <h1 style="color: #00ff7f; font-size: 28px; margin-bottom: 20px;">FOLLOW FAST</h1>
+    
+    <h3 style="margin-bottom: 10px; font-weight: normal;">Add Balance</h3>
+    
+    <h2 style="font-size: 24px; margin-top: 5px; margin-bottom: 20px;">Minimum Deposit: ₹40</h2>
+    
+    <p style="color: #ccc; margin-bottom: 15px;">Scan QR Code & Pay</p>
 
-<div class="header">
-<h1>FOLLOW FAST</h1>
-<p>Add Balance</p>
-</div>
+    <!-- QR Code Image -->
+    <div style="margin: 20px 0;">
+      <img src="https://i.ibb.co/9kJByhdj/qr.png" alt="QR Code" style="max-width: 220px; width: 100%; height: auto; border-radius: 8px; border: 2px solid #ffffff;">
+    </div>
 
-<div class="card">
+    <!-- Payment Inputs -->
+    <div style="margin-top: 20px;">
+      <input type="number" placeholder="Enter Amount" style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;">
+      
+      <input type="text" placeholder="Enter UTR / Transaction ID" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;">
+      
+      <button type="button" style="background-color: #ffffff; color: #000000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; font-size: 15px; margin-bottom: 12px;">Submit Payment</button>
+      
+      <a href="dashboard.html" style="display: block; background-color: #ffffff; color: #000000; text-decoration: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; font-size: 15px;">Back to Dashboard</a>
+    </div>
 
-<h2>Minimum Deposit: ₹40</h2>
-
-<p>Scan QR Code & Pay</p>
-
-<img src="https://i.ibb.co/NdXKzR4q/qr.png" width="220" id="qrImg" style="cursor: pointer;" onclick="openModal()">
-
-<br><br>
-
-<input type="number" placeholder="Enter Amount">
-
-<br><br>
-
-<input type="text" placeholder="Enter UTR / Transaction ID">
-
-<br><br>
-
-<button type="button" onclick="showError()">Submit Payment</button>
-
-<p id="statusMsg" style="margin-top:20px; font-weight: bold;"></p>
-
-<a href="dashboard.html">
-<button>Back to Dashboard</button>
-</a>
-
-</div>
-
-<div id="imgModal" class="modal" onclick="closeModal()">
-  <img src="https://i.ibb.co/NdXKzR4q/qr.png" alt="QR Code Large">
-</div>
-
-<script>
-  function openModal() {
-    document.getElementById("imgModal").style.display = "flex";
-  }
-  function closeModal() {
-    document.getElementById("imgModal").style.display = "none";
-  }
-
-  function showError() {
-    let amount = document.querySelectorAll('input')[0].value;
-    let trxn = document.querySelectorAll('input')[1].value;
-    let msgBox = document.getElementById('statusMsg');
-
-    if (!amount || !trxn) {
-      msgBox.style.color = "orange";
-      msgBox.innerText = "Please enter Amount and Transaction ID!";
-      return;
-    }
-
-    msgBox.style.color = "#ef4444"; // Red Color
-    msgBox.innerText = "Wrong Transaction ID";
-  }
-</script>
+  </div>
 
 </body>
 </html>
