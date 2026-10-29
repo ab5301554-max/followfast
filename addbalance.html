@@ -43,13 +43,14 @@
     .qr-container {
       margin: 20px 0;
       background: #ffffff;
-      padding: 12px;
+      padding: 8px;
       border-radius: 12px;
       display: inline-block;
     }
     .qr-image {
-      width: 220px;
-      height: 220px;
+      width: 240px;
+      height: auto;
+      max-height: 300px;
       border-radius: 6px;
       object-fit: contain;
       display: block;
@@ -101,9 +102,9 @@
     <div class="min-deposit">Minimum Deposit: ₹40</div>
     <div class="scan-text">Scan QR Code & Pay</div>
 
-    <!-- Direct Auto-Generated UPI QR Code (No Broken Image Links) -->
+    <!-- Uploaded Image Name Linked Here -->
     <div class="qr-container">
-      <img id="upiQrCode" src="" alt="Payment QR Code" class="qr-image">
+      <img src="Picsart_26-10-29_11-45-42-102.jpg" alt="QR Code" class="qr-image">
     </div>
 
     <!-- Form Inputs -->
@@ -119,16 +120,6 @@
   </div>
 
   <script>
-    // আপনার ইউপিআই আইডি এবং মার্চেন্ট নাম
-    const upiID = "akashbaidya6214@upi";
-    const merchantName = "Follow Fast";
-
-    // অটোমেটিক পারফেক্ট কিউআর কোড জেনারেটর লিংক
-    const upiString = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(merchantName)}&cu=INR`;
-    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
-    
-    document.getElementById('upiQrCode').src = qrApiUrl;
-
     function processPayment() {
       const amount = document.getElementById('amountInput').value.trim();
       const utr = document.getElementById('utrInput').value.trim();
