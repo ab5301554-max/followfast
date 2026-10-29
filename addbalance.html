@@ -1,5 +1,4 @@
-
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -102,9 +101,9 @@
     <div class="min-deposit">Minimum Deposit: ₹40</div>
     <div class="scan-text">Scan QR Code & Pay</div>
 
-    <!-- QR Code Image -->
+    <!-- AUTO GENERATED UPI QR CODE -->
     <div class="qr-container">
-      <img src="https://i.ibb.co/6cwjQ9t6/57725.jpg" alt="QR Code" class="qr-image">
+      <img id="upiQrCode" src="" alt="Payment QR Code" class="qr-image">
     </div>
 
     <!-- Form Inputs -->
@@ -120,8 +119,18 @@
   </div>
 
   <script>
+    // আপনার পেমেন্ট ইউপিআই আইডি এখানে সেট করা আছে
+    const upiID = "akashbaidya6214@upi"; 
+    const merchantName = "Follow Fast";
+
+    // অটোমেটিক পারফেক্ট ইউপিআই স্ক্যানার কিউআর কোড লিংক জেনারেটর
+    const upiString = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(merchantName)}&cu=INR`;
+    const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
+    
+    document.getElementById('upiQrCode').src = qrApi;
+
     function processPayment() {
-      const amount = document.getElementById('amountInput57725.jpg').value.trim(); // adjusted reference if needed
+      const amount = document.getElementById('amountInput').value.trim();
       const utr = document.getElementById('utrInput').value.trim();
       const errorMsg = document.getElementById('error-msg');
 
