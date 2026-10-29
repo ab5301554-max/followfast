@@ -48,6 +48,8 @@
       height: 220px;
       border-radius: 8px;
       object-fit: contain;
+      background: #ffffff;
+      padding: 5px;
     }
     .input-box {
       width: 100%;
@@ -79,7 +81,6 @@
       display: block;
       margin-bottom: 12px;
     }
-    /* Red Alert Message Style */
     #error-msg {
       color: #ff4d4d;
       font-size: 14px;
@@ -97,9 +98,9 @@
     <div class="min-deposit">Minimum Deposit: ₹40</div>
     <div class="scan-text">Scan QR Code & Pay</div>
 
-    <!-- Updated QR Code Image Link -->
+    <!-- QR Code Image -->
     <div class="qr-container">
-      <img src="https://ibb.co/Kj6yrDVT" alt="QR Code" class="qr-image">
+      <img src="https://i.ibb.co/9kJByhdj/qr.png" alt="QR Code" class="qr-image">
     </div>
 
     <!-- Form Inputs -->
@@ -132,7 +133,6 @@
         return;
       }
 
-      // Show Red Error Message
       errorMsg.innerText = "Wrong Transaction ID or Payment Not Received!";
       errorMsg.style.display = "block";
     }
