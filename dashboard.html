@@ -53,6 +53,40 @@
       font-weight: bold;
     }
 
+    /* Auto Color Changing Add Balance Button */
+    .add-balance-anim {
+      animation: colorCycle 4.5s infinite ease-in-out;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .add-balance-anim:hover {
+      transform: scale(1.04);
+    }
+
+    @keyframes colorCycle {
+      0% {
+        background-color: #2563eb; /* Blue */
+        color: #ffffff;
+      }
+      25% {
+        background-color: #111827; /* Black */
+        color: #ffffff;
+      }
+      50% {
+        background-color: #16a34a; /* Green */
+        color: #ffffff;
+      }
+      75% {
+        background-color: #7c3aed; /* Purple / Mix */
+        color: #ffffff;
+      }
+      100% {
+        background-color: #2563eb; /* Back to Blue */
+        color: #ffffff;
+      }
+    }
+
     /* Info Cards */
     .info-card {
       background: #ffffff;
@@ -154,7 +188,7 @@
     <div class="banner-card">
       <h4>We Have Enabled <span style="color: green;">2% Bonus</span> On Payments</h4>
       <div class="btn-group" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-        <a href="addbalance.html" class="top-btn">Add Balance</a>
+        <a href="addbalance.html" class="top-btn add-balance-anim">Add Balance</a>
         <a href="https://youtube.com/shorts/wUjOodaSC9I?si=Buo82z5V7THWX-mg" target="_blank" class="top-btn" style="background-color: #ff0000;">▶ How to Add Balance</a>
       </div>
     </div>
