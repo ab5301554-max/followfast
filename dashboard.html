@@ -84,40 +84,6 @@
       color: #111827;
     }
 
-    /* Blue Tick Highlight Badge */
-    .bluetick-badge-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 8px;
-      padding: 8px 12px;
-      margin-bottom: 12px;
-      cursor: pointer;
-    }
-
-    .bluetick-title {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: bold;
-      color: #1e3a8a;
-    }
-
-    .bluetick-svg {
-      width: 17px;
-      height: 17px;
-      flex-shrink: 0;
-    }
-
-    .bluetick-tag {
-      font-size: 11px;
-      font-weight: bold;
-      color: #2563eb;
-    }
-
     /* Main Order Card */
     .order-box {
       background: #ffffff;
@@ -220,27 +186,15 @@
 
     <!-- Order Form -->
     <div class="order-box">
-
-      <!-- Blue Tick Instagram Badge Selector -->
-      <div class="bluetick-badge-bar" onclick="selectBlueTick()">
-        <span class="bluetick-title">
-          <span>Blue Tick Instagram</span>
-          <svg class="bluetick-svg" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" fill="#1d9bf0"></circle>
-            <path d="M8.5 12.3l2.2 2.2 4.8-5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </span>
-        <span class="bluetick-tag">₹90 • 5-15 Min</span>
-      </div>
       
-      <!-- Category/Service Selection -->
+      <!-- Category/Service Selection (Blue Tick at #4 with small blue tick emoji) -->
       <div class="form-group">
         <label>Service *</label>
         <select id="categorySelect" onchange="updatePackages()">
-          <option value="ig_bluetick">☑️ Blue Tick Instagram [ Verified Badge - ₹90 ]</option>
           <option value="ig_indian">📷 Instagram Followers [ 🇮🇳 100% Indian Permanent - Special Offer ]</option>
           <option value="ig_views">📷 Instagram Views [ Fast Working ] updated</option>
           <option value="ig_likes">📷 Instagram Likes [ Cheapest ] NEW</option>
+          <option value="ig_bluetick">Blue Tick Instagram 🔹 [ Verified Badge - ₹90 ]</option>
           <option value="yt_subscribers">▶️ YouTube Subscribers [ High Speed - Best Offer ]</option>
           <option value="yt_views">▶️ YouTube Views & Likes</option>
           <option value="fb_services">📘 Facebook Followers & Likes</option>
@@ -270,7 +224,7 @@
       <!-- Average Time -->
       <div class="form-group">
         <label>Average Time (Last 10 Orders)</label>
-        <input type="text" id="avgTimeInput" value="5 - 15 minutes" readonly>
+        <input type="text" id="avgTimeField" value="10 minutes" readonly>
       </div>
 
       <!-- Target Link Input -->
@@ -289,7 +243,7 @@
       <!-- Total Charge Output -->
       <div class="form-group">
         <label>Total Charge</label>
-        <input type="text" id="totalCharge" value="₹90.00" readonly style="font-weight: bold; color: #2563eb;">
+        <input type="text" id="totalCharge" value="₹0.00" readonly style="font-weight: bold; color: #2563eb;">
       </div>
 
       <button class="submit-btn" onclick="placeOrder()">Submit Order</button>
@@ -305,9 +259,6 @@
     let orderHistory = JSON.parse(localStorage.getItem("smm_orders")) || [];
 
     const serviceData = {
-      ig_bluetick: [
-        { id: "9001", name: "Blue Tick Instagram | Verified Account Badge (Set Time: 5 - 15 Minutes)", rate: 90.00 }
-      ],
       ig_indian: [
         { id: "3968", name: "ID:3968 Instagram Followers | Max 10K | Premium Indian 🇮🇳 | Permanent", rate: 20.00 },
         { id: "3969", name: "ID:3969 Instagram Followers | Max 50K | Real Indian 🇮🇳 | Non Drop", rate: 20.00 }
@@ -319,6 +270,9 @@
       ig_likes: [
         { id: "7682", name: "ID:7682 IG Likes | HQ Quality | Non Drop | Instant", rate: 4.15 },
         { id: "3293", name: "ID:3293 Instagram Likes | Max 5M | 100K+/Day", rate: 4.63 }
+      ],
+      ig_bluetick: [
+        { id: "9001", name: "Blue Tick Instagram 🔹 [Verified Badge] (Set Time: 5 - 15 Minutes)", rate: 90.00 }
       ],
       yt_subscribers: [
         { id: "5002", name: "ID:5002 YouTube Subscribers | Non Drop | Real Active Accounts | Speed 500-1K/Day", rate: 25.00 },
@@ -334,11 +288,6 @@
       ]
     };
 
-    function selectBlueTick() {
-      document.getElementById("categorySelect").value = "ig_bluetick";
-      updatePackages();
-    }
-
     function updateDashboardUI() {
       document.getElementById("user-balance").innerText = `₹${(userData.balance || 0).toFixed(2)}`;
       document.getElementById("user-spent").innerText = `₹${(userData.spent || 0).toFixed(2)}`;
@@ -348,7 +297,7 @@
       const category = document.getElementById("categorySelect").value;
       const packageSelect = document.getElementById("packageSelect");
       const quantityGroup = document.getElementById("quantityGroup");
-      const avgTimeInput = document.getElementById("avgTimeInput");
+      const avgTimeField = document.getElementById("avgTimeField");
       const serviceDesc = document.getElementById("serviceDesc");
       const targetLink = document.getElementById("targetLink");
       
@@ -370,12 +319,12 @@
 
       if (category === "ig_bluetick") {
         quantityGroup.style.display = "none";
-        avgTimeInput.value = "5 - 15 minutes";
+        avgTimeField.value = "5 - 15 minutes";
         serviceDesc.value = "Blue Tick Set Time: 5 - 15 Minutes ✅";
         targetLink.placeholder = "Enter Instagram Username or Profile Link";
       } else {
         quantityGroup.style.display = "block";
-        avgTimeInput.value = "10 minutes";
+        avgTimeField.value = "10 minutes";
         serviceDesc.value = "Start - Instant - High Speed ⚡";
         targetLink.placeholder = "Account / Post / Channel Link Must be Public";
       }
