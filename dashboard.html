@@ -84,6 +84,40 @@
       color: #111827;
     }
 
+    /* Blue Tick Highlight Badge */
+    .bluetick-badge-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+
+    .bluetick-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #1e3a8a;
+    }
+
+    .bluetick-svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    .bluetick-tag {
+      font-size: 11px;
+      font-weight: bold;
+      color: #2563eb;
+    }
+
     /* Main Order Card */
     .order-box {
       background: #ffffff;
@@ -154,10 +188,9 @@
     <div class="banner-card">
       <h4>We Have Enabled <span style="color: green;">2% Bonus</span> On Payments</h4>
       <div class="btn-group" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-  <a href="addbalance.html" class="top-btn">Add Balance</a>
-  <a href="https://youtube.com/shorts/wUjOodaSC9I?si=Buo82z5V7THWX-mg" target="_blank" class="top-btn" style="background-color: #ff0000;">▶ How to Add Balance</a>
-</div>
-
+        <a href="addbalance.html" class="top-btn">Add Balance</a>
+        <a href="https://youtube.com/shorts/wUjOodaSC9I?si=Buo82z5V7THWX-mg" target="_blank" class="top-btn" style="background-color: #ff0000;">▶ How to Add Balance</a>
+      </div>
     </div>
 
     <!-- Balance & Stats Cards -->
@@ -187,11 +220,24 @@
 
     <!-- Order Form -->
     <div class="order-box">
+
+      <!-- Blue Tick Instagram Badge Selector -->
+      <div class="bluetick-badge-bar" onclick="selectBlueTick()">
+        <span class="bluetick-title">
+          <span>Blue Tick Instagram</span>
+          <svg class="bluetick-svg" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" fill="#1d9bf0"></circle>
+            <path d="M8.5 12.3l2.2 2.2 4.8-5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+        <span class="bluetick-tag">₹90 • 5-15 Min</span>
+      </div>
       
       <!-- Category/Service Selection -->
       <div class="form-group">
         <label>Service *</label>
         <select id="categorySelect" onchange="updatePackages()">
+          <option value="ig_bluetick">☑️ Blue Tick Instagram [ Verified Badge - ₹90 ]</option>
           <option value="ig_indian">📷 Instagram Followers [ 🇮🇳 100% Indian Permanent - Special Offer ]</option>
           <option value="ig_views">📷 Instagram Views [ Fast Working ] updated</option>
           <option value="ig_likes">📷 Instagram Likes [ Cheapest ] NEW</option>
@@ -224,7 +270,7 @@
       <!-- Average Time -->
       <div class="form-group">
         <label>Average Time (Last 10 Orders)</label>
-        <input type="text" value="10 minutes" readonly>
+        <input type="text" id="avgTimeInput" value="5 - 15 minutes" readonly>
       </div>
 
       <!-- Target Link Input -->
@@ -233,8 +279,8 @@
         <input type="text" id="targetLink" placeholder="Account / Post / Channel Link Must be Public">
       </div>
 
-      <!-- Quantity Input -->
-      <div class="form-group">
+      <!-- Quantity Input (Hidden automatically when Blue Tick Instagram is selected) -->
+      <div class="form-group" id="quantityGroup">
         <label>Quantity *</label>
         <input type="number" id="quantityInput" placeholder="Enter Quantity" min="10" oninput="calculatePrice()">
         <small style="font-size: 10px; color: #666; display: block; margin-top: 3px;">Min: 10 - Max: 1000000</small>
@@ -243,7 +289,7 @@
       <!-- Total Charge Output -->
       <div class="form-group">
         <label>Total Charge</label>
-        <input type="text" id="totalCharge" value="₹0.00" readonly style="font-weight: bold; color: #2563eb;">
+        <input type="text" id="totalCharge" value="₹90.00" readonly style="font-weight: bold; color: #2563eb;">
       </div>
 
       <button class="submit-btn" onclick="placeOrder()">Submit Order</button>
@@ -259,6 +305,9 @@
     let orderHistory = JSON.parse(localStorage.getItem("smm_orders")) || [];
 
     const serviceData = {
+      ig_bluetick: [
+        { id: "9001", name: "Blue Tick Instagram | Verified Account Badge (Set Time: 5 - 15 Minutes)", rate: 90.00 }
+      ],
       ig_indian: [
         { id: "3968", name: "ID:3968 Instagram Followers | Max 10K | Premium Indian 🇮🇳 | Permanent", rate: 20.00 },
         { id: "3969", name: "ID:3969 Instagram Followers | Max 50K | Real Indian 🇮🇳 | Non Drop", rate: 20.00 }
@@ -285,6 +334,11 @@
       ]
     };
 
+    function selectBlueTick() {
+      document.getElementById("categorySelect").value = "ig_bluetick";
+      updatePackages();
+    }
+
     function updateDashboardUI() {
       document.getElementById("user-balance").innerText = `₹${(userData.balance || 0).toFixed(2)}`;
       document.getElementById("user-spent").innerText = `₹${(userData.spent || 0).toFixed(2)}`;
@@ -293,27 +347,54 @@
     function updatePackages() {
       const category = document.getElementById("categorySelect").value;
       const packageSelect = document.getElementById("packageSelect");
+      const quantityGroup = document.getElementById("quantityGroup");
+      const avgTimeInput = document.getElementById("avgTimeInput");
+      const serviceDesc = document.getElementById("serviceDesc");
+      const targetLink = document.getElementById("targetLink");
       
       packageSelect.innerHTML = "";
       
-      if(serviceData[category]) {
+      if (serviceData[category]) {
         serviceData[category].forEach(pkg => {
           const option = document.createElement("option");
           option.value = pkg.rate;
           option.setAttribute("data-name", pkg.name);
-          option.textContent = `${pkg.name} -- ₹${pkg.rate.toFixed(2)} per 1000`;
+          if (category === "ig_bluetick") {
+            option.textContent = `${pkg.name} -- ₹${pkg.rate.toFixed(2)}`;
+          } else {
+            option.textContent = `${pkg.name} -- ₹${pkg.rate.toFixed(2)} per 1000`;
+          }
           packageSelect.appendChild(option);
         });
+      }
+
+      if (category === "ig_bluetick") {
+        quantityGroup.style.display = "none";
+        avgTimeInput.value = "5 - 15 minutes";
+        serviceDesc.value = "Blue Tick Set Time: 5 - 15 Minutes ✅";
+        targetLink.placeholder = "Enter Instagram Username or Profile Link";
+      } else {
+        quantityGroup.style.display = "block";
+        avgTimeInput.value = "10 minutes";
+        serviceDesc.value = "Start - Instant - High Speed ⚡";
+        targetLink.placeholder = "Account / Post / Channel Link Must be Public";
       }
 
       calculatePrice();
     }
 
     function calculatePrice() {
+      const category = document.getElementById("categorySelect").value;
       const packageSelect = document.getElementById("packageSelect");
       const rate = parseFloat(packageSelect.value) || 0;
-      const qty = parseInt(document.getElementById("quantityInput").value) || 0;
 
+      if (category === "ig_bluetick") {
+        document.getElementById("priceRate").value = `₹${rate.toFixed(2)} (Fixed)`;
+        document.getElementById("totalCharge").value = `₹${rate.toFixed(2)}`;
+        return;
+      }
+
+      const qty = parseInt(document.getElementById("quantityInput").value) || 0;
       document.getElementById("priceRate").value = `₹${rate.toFixed(2)} per 1000`;
       
       const total = (rate * qty) / 1000;
@@ -321,14 +402,17 @@
     }
 
     function placeOrder() {
+      const category = document.getElementById("categorySelect").value;
       const packageSelect = document.getElementById("packageSelect");
       const selectedOption = packageSelect.options[packageSelect.selectedIndex];
-      const linkInput = document.getElementById("targetLink").value;
+      const linkInput = document.getElementById("targetLink").value.trim();
       const qtyInput = parseInt(document.getElementById("quantityInput").value) || 0;
       
       if (!selectedOption) return alert("দয়া করে সার্ভিস নির্বাচন করুন!");
-      if (!linkInput) return alert("দয়া করে লিঙ্ক দিন!");
-      if (qtyInput <= 0) return alert("দয়া করে সঠিক পরিমাণ (Quantity) লিখুন!");
+      if (!linkInput) return alert("দয়া করে Instagram Username বা লিঙ্ক দিন!");
+      if (category !== "ig_bluetick" && qtyInput <= 0) {
+        return alert("দয়া করে সঠিক পরিমাণ (Quantity) লিখুন!");
+      }
 
       const serviceName = selectedOption.getAttribute("data-name");
       const totalCharge = parseFloat(document.getElementById("totalCharge").value.replace("₹", "")) || 0;
